@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<INumberConverter , NumberConverter>();
 builder.Services.AddGrpc();
 
-ConfigureStaticSetails();
+ConfigureStaticDetails();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,15 +21,16 @@ app.MapGet("/", () => "Communication with gRPC endpoints must be made through a 
 app.Run();
 
 
-void ConfigureStaticSetails()
+void ConfigureStaticDetails()
 {
     StaticDetails.DoubleDigits = builder.Configuration.GetSection("Settings")["DoubleDigits"].Split(",");
     StaticDetails.SingleDigits = builder.Configuration.GetSection("Settings")["SingleDigits"].Split(",");
     StaticDetails.GradesForTwo = builder.Configuration.GetSection("Settings")["GradesForTwo"].Split(",");
     StaticDetails.GradesForThree = builder.Configuration.GetSection("Settings")["GradesForThree"].Split(",");
     StaticDetails.AndWord = builder.Configuration.GetSection("Settings")["AndWord"];
-    StaticDetails.SingleDollar = builder.Configuration.GetSection("Settings")["SingleDollar"];
-    StaticDetails.SingleCent = builder.Configuration.GetSection("Settings")["SingleCent"];
-    StaticDetails.PluralDollar = builder.Configuration.GetSection("Settings")["PluralDollar"];
-    StaticDetails.PluralCent = builder.Configuration.GetSection("Settings")["PluralCent"];
+    StaticDetails.HundredWord = builder.Configuration.GetSection("Settings")["HundredWord"];
+    StaticDetails.SingleIntPartCurrency = builder.Configuration.GetSection("Settings")["SingleIntPartCurrency"];
+    StaticDetails.SingleDecimalPartCurrency = builder.Configuration.GetSection("Settings")["SingleDecimalPartCurrency"];
+    StaticDetails.PluralIntPartCurrency = builder.Configuration.GetSection("Settings")["PluralIntPartCurrency"];
+    StaticDetails.PluralDecimalPartCurrency = builder.Configuration.GetSection("Settings")["PluralDecimalPartCurrency"];
 }

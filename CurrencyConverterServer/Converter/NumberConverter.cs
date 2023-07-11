@@ -41,39 +41,49 @@ namespace CurrencyConverterServer.Converter
             {
 
                 var strGrade = splittedByGrade[i];
-                if (System.Convert.ToInt32(strGrade) <= 0)
+
+                if (System.Convert.ToInt32(strGrade) <= 0 && gradeCounter < gradeCount -1 )
+                {
+                    gradeCounter++;
                     continue;
+                }
+                    
                 HelperMethods.PrintGrade(ref stringBuilder, strGrade);
                 if (gradeCounter < gradeCount - 1)
                 {
-                    stringBuilder.Append(" " + digits[gradeCounter] + " ");
+                    stringBuilder.Append($" {digits[gradeCounter]} ");
+                    gradeCounter++;
                 }
-                gradeCounter++;
+                
 
             }
-            if(integerNum == 0)
-                stringBuilder.Append($" {StaticDetails.SingleDigits[integerNum]}");
+            
             if (integerNum == 1)
-                stringBuilder.Append($" {StaticDetails.SingleDollar}");
+                stringBuilder.Append($" {StaticDetails.SingleIntPartCurrency}");
             else
-                stringBuilder.Append($" {StaticDetails.PluralDollar}");
+                stringBuilder.Append($" {StaticDetails.PluralIntPartCurrency}");
 
             if (splittedByType.Count() > 1)
             {
                 if(splittedByType[1].Length >2 )
                     throw new Exception("invalid decimal part ");
+                if (splittedByType[1].Length == 1)
+                    splittedByType[1] += "0";
+                var decimalNum = System.Convert.ToInt32(splittedByType[1]);
 
-                var decimalNum = System.Convert.ToInt32(splittedByType[1].Replace(" ", "0"));
+
                 if (decimalNum > 99)
                     throw new Exception("invalid decimal part ");
-                stringBuilder.Append($" {StaticDetails.AndWord} ");
-                HelperMethods.Print2DigitsGrade(ref stringBuilder, splittedByType[1]);
-                if (decimalNum == 0)
-                    stringBuilder.Append($" {StaticDetails.SingleDigits[decimalNum]}");
-                if (decimalNum == 1)
-                    stringBuilder.Append($" {StaticDetails.SingleCent}");
+                stringBuilder.Append($" {StaticDetails.AndWord}");
+                if(decimalNum > 0)
+                    HelperMethods.Print2DigitsGrade(ref stringBuilder, splittedByType[1]);
                 else
-                    stringBuilder.Append($" {StaticDetails.PluralCent}");
+                    stringBuilder.Append($"{StaticDetails.SingleDigits[decimalNum]}");
+
+                if (decimalNum == 1)
+                    stringBuilder.Append($" {StaticDetails.SingleDecimalPartCurrency}");
+                else
+                    stringBuilder.Append($" {StaticDetails.PluralDecimalPartCurrency}");
             }
             return Task.FromResult(
                     new ConvertReply() { Message = stringBuilder.ToString() });

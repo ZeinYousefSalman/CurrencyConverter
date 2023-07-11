@@ -12,7 +12,7 @@ namespace CurrencyConverterServer.Helper
             if (Convert.ToInt16(numberString.Substring(0, 1)) > 0)
             {
                 Print1DigitGrade(ref sb, numberString.Substring(0, 1));
-                sb.Append(" hundread ");
+                sb.Append($" {StaticDetails.HundredWord}");
             }
 
             Print2DigitsGrade(ref sb, numberString.Substring(1, 2));
@@ -25,7 +25,7 @@ namespace CurrencyConverterServer.Helper
             var num = Convert.ToInt16(numberString);
             if (num >= 20)
             {
-                sb.Append(StaticDetails.DoubleDigits[num / 10]);
+                sb.Append($" {StaticDetails.DoubleDigits[num / 10]}");
                 if (num % 10 != 0)
                 {
                     sb.Append('-');
@@ -35,8 +35,8 @@ namespace CurrencyConverterServer.Helper
             }
             else
             {
-                if(num > 0)
-                    sb.Append(StaticDetails.SingleDigits[num]);
+                if (num > 0)
+                    sb.Append($" {StaticDetails.SingleDigits[num]}");
             }
         }
         public static void Print1DigitGrade(ref StringBuilder sb, string numberString)
